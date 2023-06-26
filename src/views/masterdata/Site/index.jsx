@@ -81,7 +81,7 @@ const Sites = () => {
   const fetcher = () => SiteAPI.getAll().then((res) => res.data.site.records);
 
   const { data: dtSites } = useSWR("site", fetcher, {
-    refreshInterval: 1000,
+    refreshInterval: 2000,
   });
 
   useEffect(() => {
