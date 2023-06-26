@@ -1,16 +1,12 @@
 import axios from "axios";
 
-const {
-  REACT_APP_WBMS_BACKEND_URL,
-  REACT_APP_SEMAI_BACKEND_URL,
-  REACT_APP_TEST_DATA_BACKEND_URL,
-} = process.env;
+const { REACT_APP_WBMS_BACKEND_API_URL } = process.env;
 
 const api = axios.create({
-  baseURL: `${REACT_APP_TEST_DATA_BACKEND_URL}/`,
+  baseURL: `${REACT_APP_WBMS_BACKEND_API_URL}`,
 });
 
-export const endpoint = "sites";
+export const endpoint = "/sites";
 
 export const getAll = async () => {
   const response = await api.get(endpoint);

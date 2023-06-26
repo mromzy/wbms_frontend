@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Grid, Paper } from "@mui/material";
+
 import useSWR from "swr";
 import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
 import "ag-grid-enterprise";
@@ -14,7 +17,7 @@ import { ModuleRegistry } from "@ag-grid-community/core";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
 import Config from "../../../configs";
-import * as TransactionAPI from "../../../api/transactionApi";
+import * as SiteAPI from "../../../api/siteApi";
 
 import PageHeader from "../../../components/PageHeader";
 ModuleRegistry.registerModules([
@@ -24,9 +27,12 @@ ModuleRegistry.registerModules([
   RichSelectModule,
 ]);
 
-const tType = 1;
+const Sites = () => {
+  const { configs } = useSelector((state) => state.app);
 
-const ReportPksTransactions = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   console.clear();
   const statusFormatter = (params) => {
     return Config.PKS_PROGRESS_STATUS[params.value];
@@ -36,57 +42,19 @@ const ReportPksTransactions = () => {
 
   const [columnDefs] = useState([
     {
-      headerName: "Bontrip No",
-      field: "bonTripNo",
+      headerName: "Kode",
+      field: "code",
       filter: true,
       sortable: true,
       hide: false,
     },
-    { headerName: "No Pol", field: "transportVehiclePlateNo", filter: true },
+    { headerName: "Nama", field: "name", filter: true, sortable: true, hide: false },
     {
-      headerName: "Status",
-      field: "progressStatus",
-      cellClass: "progressStatus",
-      valueFormatter: statusFormatter,
-      enableRowGroup: true,
-      rowGroup: true,
-      hide: true,
-    },
-    {
-      headerName: "DO No",
-      field: "deliveryOrderNo",
+      headerName: "Perusahaan",
+      field: "companyName",
       filter: true,
       sortable: true,
-    },
-    {
-      headerName: "Product",
-      field: "productName",
-      filter: true,
-      sortable: true,
-    },
-    {
-      headerName: "WB-IN",
-      field: "originWeighInKg",
-      maxWidth: 150,
-      aggFunc: "sum",
-    },
-    {
-      headerName: "WB-OUT",
-      field: "originWeighOutKg",
-      maxWidth: 150,
-      aggFunc: "sum",
-    },
-    {
-      headerName: "Return WB-IN",
-      field: "returnWeighInKg",
-      maxWidth: 185,
-      aggFunc: "sum",
-    },
-    {
-      headerName: "Return WB-OUT",
-      field: "returnWeighOutKg",
-      maxWidth: 195,
-      aggFunc: "sum",
+      hide: false,
     },
   ]);
 
@@ -110,15 +78,9 @@ const ReportPksTransactions = () => {
     [],
   );
 
-  const fetcher = () =>
-    TransactionAPI.searchMany({
-      where: {
-        tType,
-      },
-      orderBy: { bonTripNo: "desc" },
-    }).then((res) => res.records);
+  const fetcher = () => SiteAPI.getAll().then((res) => res.data.site.records);
 
-  const { data: dtTransactions } = useSWR("transaction", fetcher, {
+  const { data: dtSites } = useSWR("site", fetcher, {
     refreshInterval: 1000,
   });
 
@@ -133,7 +95,7 @@ const ReportPksTransactions = () => {
   return (
     <>
       <PageHeader
-        title="Report Transaksi PKS4"
+        title="Daftar Site"
         subTitle="Page Description"
         icon={<LocalShippingIcon fontSize="large" />}
       />
@@ -153,7 +115,7 @@ const ReportPksTransactions = () => {
             <div className="ag-theme-alpine" style={{ width: "auto", height: "70vh" }}>
               <AgGridReact
                 ref={gridRef}
-                rowData={dtTransactions} // Row Data for Rows
+                rowData={dtSites} // Row Data for Rows
                 columnDefs={columnDefs} // Column Defs for Columns
                 defaultColDef={defaultColDef} // Default Column Properties
                 animateRows={true} // Optional - set to 'true' to have rows animate when sorted
@@ -175,4 +137,4 @@ const ReportPksTransactions = () => {
   );
 };
 
-export default ReportPksTransactions;
+export default Sites;

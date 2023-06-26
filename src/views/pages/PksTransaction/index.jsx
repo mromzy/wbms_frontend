@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { w3cwebsocket } from "websocket";
@@ -44,7 +44,7 @@ const PksTransaction = () => {
       }
 
       console.log(
-        `vStatus: ${response.data.transaction.vehicleStatus}, dStatus:${response.data.transaction.deliveryStatus}.`
+        `vStatus: ${response.data.transaction.vehicleStatus}, dStatus:${response.data.transaction.deliveryStatus}.`,
       );
 
       // setWbPksTransaction(response.data.transaction);
@@ -52,9 +52,7 @@ const PksTransaction = () => {
 
       navigate(response.data.urlPath);
     } else if (readEnter) {
-      return toast.error(
-        "Tidak dapat membaca QR Code atau QR Code tidak valid..."
-      );
+      return toast.error("Tidak dapat membaca QR Code atau QR Code tidak valid...");
     }
   };
 
@@ -71,15 +69,11 @@ const PksTransaction = () => {
 
     if (curWb.weight !== wb.weight) {
       curWb.lastChange = moment().valueOf();
-    } else if (
-      moment().valueOf() - wb.lastChange >
-      configs.WBMS_WB_STABLE_PERIOD
-    ) {
+    } else if (moment().valueOf() - wb.lastChange > configs.WBMS_WB_STABLE_PERIOD) {
       curWb.isStable = true;
     }
 
-    if (curWb.weight === 0 && curWb.isStable && !curWb.onProcessing)
-      curWb.canStartScalling = true;
+    if (curWb.weight === 0 && curWb.isStable && !curWb.onProcessing) curWb.canStartScalling = true;
 
     dispatch(setWb({ ...curWb }));
   }, [wbms]);
@@ -88,9 +82,7 @@ const PksTransaction = () => {
     console.clear();
 
     if (!wsClient) {
-      wsClient = new w3cwebsocket(
-        `ws://${configs.WBMS_WB_IP}:${configs.WBMS_WB_PORT}/GetWeight`
-      );
+      wsClient = new w3cwebsocket(`ws://${configs.WBMS_WB_IP}:${configs.WBMS_WB_PORT}/GetWeight`);
 
       wsClient.onmessage = (message) => {
         const _wbms = { ...wbms };

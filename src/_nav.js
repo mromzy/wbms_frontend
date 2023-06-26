@@ -70,6 +70,33 @@ const _nav = [
       },
     ],
   },
+  {
+    component: CNavTitle,
+    name: "Administrasi WBMS",
+  },
+  {
+    component: CNavGroup,
+    name: "Master Data",
+    to: "/md/city",
+    icon: <MdCarRepair className="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "Kota",
+        to: "/md/city",
+      },
+      {
+        component: CNavItem,
+        name: "Provinsi",
+        to: "/md/province",
+      },
+      {
+        component: CNavItem,
+        name: "Site",
+        to: "/md/site",
+      },
+    ],
+  },
 ];
 
 export default _nav;
