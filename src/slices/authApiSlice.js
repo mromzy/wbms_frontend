@@ -10,15 +10,14 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
         mode: "cors",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
     signout: builder.mutation({
       query: (data) => ({
         url: `${API_URL}/signout`,
         method: "POST",
-        mode: "cors",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
   }),

@@ -36,7 +36,7 @@ const SignIn = () => {
     e.preventDefault();
 
     try {
-      const res = await signin(values).unwrap();
+      const res = await signin(values); //.unwrap();
 
       console.log("signin");
       console.log(res);
