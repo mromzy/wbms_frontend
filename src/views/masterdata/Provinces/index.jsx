@@ -8,12 +8,14 @@ import useSWR from "swr";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
 import Config from "../../../configs";
-import * as SiteAPI from "../../../api/siteApi";
+import * as ProvinceAPI from "../../../api/provinceApi";
 
 import PageHeader from "../../../components/PageHeader";
 import Tables from "../../../components/Tables";
+import { Button } from "react-bootstrap";
+import React from "react";
 
-const Sites = () => {
+const Index = () => {
   const { configs } = useSelector((state) => state.app);
 
   const dispatch = useDispatch();
@@ -26,20 +28,24 @@ const Sites = () => {
   const gridRef = useRef();
 
   const [colDefs] = useState([
-    {
-      headerName: "Kode",
-      field: "code",
-      filter: true,
-      sortable: true,
-      hide: false,
-    },
     { headerName: "Nama", field: "name", filter: true, sortable: true, hide: false },
     {
-      headerName: "Perusahaan",
-      field: "companyName",
-      filter: true,
-      sortable: true,
-      hide: false,
+      headerName: "Actions",
+      field: "id",
+      cellRenderer: (params) => {
+        return (
+          <div>
+            <Button
+              variant="primary"
+              className="me-3"
+              onClick={() => navigate(`/provinces/${params.value}`)}
+            >
+              View
+            </Button>
+            <Button variant="secondary">Delete</Button>
+          </div>
+        );
+      },
     },
   ]);
 
@@ -56,13 +62,17 @@ const Sites = () => {
     [],
   );
 
-  const fetcher = () => SiteAPI.getAll().then((res) => res.data.site.records);
+  const fetcher = () =>
+    ProvinceAPI.getAll().then((res) => {
+      console.log(res.data);
+      return res.data.province.records;
+    });
 
   useEffect(() => {
-    console.clear();
+    // console.clear();
 
     return () => {
-      console.clear();
+      // console.clear();
     };
   }, []);
 
@@ -94,4 +104,4 @@ const Sites = () => {
   );
 };
 
-export default Sites;
+export default Index;

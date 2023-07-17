@@ -42,8 +42,8 @@ const AppHeaderDropdown = () => {
   const handleSignout = async () => {
     try {
       const res = await signout().unwrap();
-      console.log(res);
-      if (!res.status) {
+
+      if (res?.status && !res.status) {
         console.log(res.message);
         console.log(res.logs);
 

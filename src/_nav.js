@@ -82,18 +82,18 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: "Kota",
-        to: "/md/city",
+        name: "Provinsi",
+        to: "/md/provinces",
       },
       {
         component: CNavItem,
-        name: "Provinsi",
-        to: "/md/province",
+        name: "Kota",
+        to: "/md/cities",
       },
       {
         component: CNavItem,
         name: "Site",
-        to: "/md/site",
+        to: "/md/sites",
       },
     ],
   },

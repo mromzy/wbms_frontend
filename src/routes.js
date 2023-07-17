@@ -4,7 +4,8 @@ const Dashboard = lazy(() => import("./views/dashboard/Dashboard"));
 const PksTransaction = lazy(() => import("./views/pages/PksTransaction"));
 const ReportPksTransactions = lazy(() => import("./views/reports/PksTransactions"));
 
-const MdSite = lazy(() => import("./views/masterdata/Site"));
+const MdSite = lazy(() => import("./views/masterdata/Sites"));
+const MdProvince = lazy(() => import("./views/masterdata/Provinces"));
 
 // Base
 // const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
@@ -68,7 +69,13 @@ const routes = [
   },
 
   {
-    path: "/md/site",
+    path: "/md/provinces",
+    name: "Master Data Provinsi",
+    element: MdProvince,
+  },
+
+  {
+    path: "/md/sites",
     name: "Master Data Site",
     element: MdSite,
   },
